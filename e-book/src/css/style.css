@@ -8,7 +8,7 @@ body {
     background: #4b4743;
 }
 
-a:link, a:visited { color: #000000; text-decoration: none; font-weight: bold;} 
+a:link, a:visited { color: #000000; text-decoration: none; font-weight: bold;}
 a:active, a:hover { color: #000000; text-decoration: underline;}
 
 p {
@@ -27,21 +27,21 @@ img {
     clear: both;
     width: 100%;
     height: 1px;
-    font-size: 1px; 
+    font-size: 1px;
 }
 
 .cleaner_with_height {
     clear: both;
     width: 100%;
     height: 30px;
-    font-size: 1px; 
+    font-size: 1px;
 }
 
 .cleaner_with_width {
     float: left;
     width: 20px;
     height: 30px;
-    font-size: 1px; 
+    font-size: 1px;
 }
 
 .buy_now_button a{
@@ -50,8 +50,8 @@ img {
     display: block;
     width: 100px;
     padding: 4px 0 5px 0;
-    margin-bottom: 10px; 
-    background: url(../images/templatemo_btn_02.jpg) no-repeat;
+    margin-bottom: 10px;
+    background: url(../assets/templatemo_btn_02.jpg) no-repeat;
     color: #0000ff;
     font-weight: bold;
     text-decoration: none;
@@ -63,8 +63,8 @@ img {
     display: block;
     width: 100px;
     padding: 4px 0 5px 0;
-    margin-bottom: 10px; 
-    background: url(../images/templatemo_btn_01.jpg) no-repeat;
+    margin-bottom: 10px;
+    background: url(../assets/templatemo_btn_01.jpg) no-repeat;
     color: #ffffff;
     font-weight: bold;
     text-decoration: none;
@@ -74,7 +74,7 @@ img {
     width: 960px;
     margin: 0 auto;
     padding: 0 10px;
-    background: #ffffff url(../images/templatemo_bg.jpg) no-repeat;
+    background: #ffffff url(../assets/templatemo_bg.jpg) no-repeat;
 }
 
 
@@ -84,7 +84,7 @@ img {
     clear: both;
     width: 960px;
     height: 55px;
-    background: url(../images/templatemo_menu_bg.jpg) no-repeat;
+    background: url(../assets/templatemo_menu_bg.jpg) no-repeat;
     background-position: bottom;
 }
 
@@ -148,7 +148,7 @@ img {
     height: 285px;
     padding: 0;
     margin: 0;
-    background: url(../images/page.gif) no-repeat;
+    background: url(../assets/page.gif) no-repeat;
 }
 
 #templatemo_header a,a:hover {
@@ -157,7 +157,7 @@ img {
 
 #templatemo_header #templatemo_special_offers {
     float: left;
-    font-size: 14px;    
+    font-size: 14px;
     margin-top: 95px;
     margin-left: 490px;
     width: 180px;
@@ -176,19 +176,19 @@ img {
 
 #templatemo_header #templatemo_new_books {
     float: left;
-    margin-top: 90px;   
+    margin-top: 90px;
     margin-left: 55px;
     width: 180px;
 }
 
 #templatemo_new_books ul {
-     margin: 0 0 10px 0;
-     padding: 0 0 0 20px;
+    margin: 0 0 10px 0;
+    padding: 0 0 0 20px;
 }
 
 #templatemo_new_books li {
-     margin: 0;
-     padding: 0; 
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -220,7 +220,7 @@ img {
     margin: 0 0 20px 0;
     font-size: 15px;
     color: #cbc750;
-    background: url(../images/templatemo_h1_bg.jpg);
+    background: url(../assets/templatemo_h1_bg.jpg);
 }
 
 #templatemo_content_right h2 {
@@ -285,7 +285,7 @@ article{
 }
 section{
     height: 600px;
-    background-image: url("../images/bg.jpg");
+    background-image: url("../assets/bg.jpg");
     background-size: auto 100%;
     background-repeat: no-repeat;
     position: relative;
@@ -335,13 +335,13 @@ aside em img{
     position: absolute;
 }
 .name i{
-    background-image: url("../images/user1.png");
+    background-image: url("../assets/user1.png");
     background-repeat: no-repeat;
     left: 10px;
     top: 27px;
 }
 .password i{
-    background-image: url("../images/password1.png");
+    background-image: url("../assets/password1.png");
     background-repeat: no-repeat;
     left: 10px;
     top: 29px;
