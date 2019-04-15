@@ -3,12 +3,11 @@
     <div id="templatemo_container">
       <div id="templatemo_menu">
         <ul>
-          <li><a href="/home">首页</a></li>
+          <li><a href="/index">首页</a></li>
+          <li><a href="/books" class="current">书籍浏览</a></li>
           <li><a href="/cart">购物车</a></li>
-          <li><a href="/login" class="current">登录</a></li>
           <li><a href="/regist">注册</a></li>
-          <li><a href="/manage">权限管理</a></li>
-          <li><a href="/order">订单管理</a></li>
+          <li><a href="/userorder">订单与统计</a></li>
           <form class="b_search">
             <span>Search</span>
             <input class="Search" type="text">

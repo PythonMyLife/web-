@@ -293,10 +293,10 @@ section{
 
 aside{
     width: 400px;
-    height: 450px;
+    height: 500px;
     position: absolute;
     top: 70px;
-    right: 100px;
+    right: 280px;
     background-color:#fff9;
     border-radius: 15px;
 }
@@ -363,4 +363,8 @@ aside em img{
 }
 .regist a{
     color: red;
+}
+
+.welcome{
+    text-align: center;
 }
