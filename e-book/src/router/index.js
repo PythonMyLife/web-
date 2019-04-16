@@ -10,6 +10,7 @@ import Order from '../components/order.vue'
 import index from '../components/index.vue'
 import books from '../components/books.vue'
 import manager from '../components/manager.vue'
+import userorder from '../components/userorder.vue'
 
 
 Vue.use(Router);
@@ -23,6 +24,10 @@ export default new Router({
     path: '/index',
     name: 'index',
     component: index
+  }, {
+    path: '/userorder',
+    name: 'userorder',
+    component: userorder
   }, {
     path: '/manager',
     name: 'manager',
