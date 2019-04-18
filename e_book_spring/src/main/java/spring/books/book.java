@@ -8,6 +8,10 @@ public class book {
     private Integer num;
     private Double price;
 
+    public book(){
+
+    }
+
     public book(String bookname,String author,String cover,String ISBN,Integer num,Double price){
         this.bookname = bookname;
         this.author = author;

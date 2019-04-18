@@ -9,18 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/ebook")
 public class bookController {
 
     @Autowired
     bookService book_serv;
 
-    @RequestMapping(value = "/re",method = RequestMethod.GET)
+    @RequestMapping(value = "/books",method = RequestMethod.GET)
     @ResponseBody
-    public book pass(){
-        book book = book_serv.search("9787111544937");
+    public ArrayList<book> pass(){
+        ArrayList<book> booklist = book_serv.getall_books();
         System.out.println("执行完成");
-        return book;
+        return booklist;
     }
 }
