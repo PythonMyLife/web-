@@ -1,6 +1,6 @@
-package spring.books;
+package spring.books.Service;
 
-import spring.books.book;
+import spring.books.Model.book;
 
 import java.util.ArrayList;
 

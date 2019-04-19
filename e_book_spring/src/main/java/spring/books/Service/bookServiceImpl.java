@@ -1,24 +1,20 @@
-package spring.books;
+package spring.books.Service;
 
 import org.springframework.jdbc.core.RowCallbackHandler;
-import spring.books.bookMapper;
-import spring.books.book;
-import spring.books.bookService;
+import spring.books.Model.book;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import spring.books.Dao.bookMapper;
+import spring.books.Service.bookService;
 
-import javax.validation.constraints.Null;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Service
-public class bookServiceImpl implements bookService{
+public class bookServiceImpl implements bookService {
     @Autowired
     private JdbcTemplate jdbc_tem;
 

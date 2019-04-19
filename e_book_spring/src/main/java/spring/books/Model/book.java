@@ -1,4 +1,4 @@
-package spring.books;
+package spring.books.Model;
 
 public class book {
     private String bookname;

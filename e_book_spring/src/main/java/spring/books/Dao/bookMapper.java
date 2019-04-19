@@ -1,13 +1,12 @@
-package spring.books;
+package spring.books.Dao;
 
-import java.awt.print.Book;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import spring.books.book;
+import spring.books.Model.book;
 import org.springframework.jdbc.core.RowMapper;
 
 /**
- * 实现RowMapper接口，返回user对象
+ * 实现RowMapper接口，返回book对象
  */
 public class bookMapper implements RowMapper<book>{
     @Override
