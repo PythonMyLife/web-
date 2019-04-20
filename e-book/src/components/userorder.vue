@@ -61,15 +61,15 @@
                                 label="数量"
                                 prop="num">
                         </el-table-column>
-                        <el-table-column
+                        <el-table-column style="width: 100px;"
                                 label="总价"
                                 prop="price">
                         </el-table-column>
                         <el-table-column
-                                align="right">
+                                align="left">
                             <template slot="header" slot-scope="scope">
-                                <el-input v-model="startdate" type="date" size="mini"/>
-                                <el-input v-model="enddate"   type="date" size="mini"/>
+                                <el-input v-model="startdate" type="date" size="mini" style="width: 150px;"/>
+                                <el-input v-model="enddate"   type="date" size="mini" style="width: 150px;"/>
                             </template>
                         </el-table-column>
                     </el-table>

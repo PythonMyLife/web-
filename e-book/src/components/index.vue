@@ -18,27 +18,43 @@
                         <em>
                             <img src="../assets/user.png">
                         </em>
-                        <form action="#" method="post">
-                            <p class="name"><i></i><input type="text" id="userName" class="userName" placeholder="请输入用户名"></p>
-                            <p class="password"><i></i><input type="password" id="password" class="pwd" placeholder="请输入密码"></p>
-                            <button>登录</button>
+                        <h3 class="welcome" style="color: crimson">{{error}}</h3>
+                        <form>
+                            <p class="name"><i></i><input type="text" id="userName" class="userName" v-model="username" placeholder="请输入用户名"></p>
+                            <p class="password"><i></i><input type="password" id="password" class="pwd" v-model="password" placeholder="请输入密码"></p>
+                            <el-button class="login_btn" @click="submit" type="primary">登录</el-button>
                             <p class="regist"><span>没有账号?</span><a href="/regist">立即注册</a></p>
                             <div class="clear"></div>
                         </form>
                     </aside>
                 </section>
             </article>
+            <p>{{msg}}</p>
             <div class="cleaner_with_height">&nbsp;</div>
         </div>
     </div>
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
         name: 'index',
         data: function() {
             return {
+                error: '',
+                username:'',
+                password: '',
+                msg:''
 
+            }
+        },
+        methods:{
+            submit(){
+                let form_data = {"username":this.username,"password":this.password};
+                axios.post('http://localhost:8088/ebook/index',form_data).then(response=>{
+                    this.msg = response;
+                })
             }
         }
     }
