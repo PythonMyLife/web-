@@ -16,4 +16,7 @@ public interface bookService {
 
     /* 得到全部的书籍列表 */
     ArrayList<book> getall_books();
+
+    /* 书籍详情 */
+    String detail(String ISBN);
 }

@@ -25,4 +25,10 @@ public class bookController {
         System.out.println("执行完成");
         return booklist;
     }
+
+    @RequestMapping(value = "/subpage",method = RequestMethod.GET)
+    @ResponseBody
+    public String detail(String ISBN){
+        return book_serv.detail(ISBN);
+    }
 }

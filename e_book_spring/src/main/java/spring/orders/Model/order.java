@@ -1,12 +1,12 @@
 package spring.orders.Model;
 
 public class order {
-    private String order_id;
-    private String username;
-    private String time;
-    private Integer status;
-    private String ISBN;
-    private Integer number;
+    private String order_id; //订单号
+    private String username; //用户名
+    private String time;     //下单时间
+    private Integer status;  //是否被删除
+    private String ISBN;     //书籍ISBN号
+    private Integer number;  //书籍数量
 
     public order(){ ;}
     public order(String order_id,String username,String time,Integer status,String ISBN,Integer number){

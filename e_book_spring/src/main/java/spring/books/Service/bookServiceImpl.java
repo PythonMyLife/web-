@@ -12,6 +12,7 @@ import spring.books.Service.bookService;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 @Service
 public class bookServiceImpl implements bookService {
@@ -51,6 +52,13 @@ public class bookServiceImpl implements bookService {
             }
         });
         return booklist;
+    }
+    @Override
+    public String detail(String ISBN){
+        String sql = "select detail from subpage where ISBN=?";
+        Map map= jdbc_tem.queryForMap(sql,ISBN);
+        String result = (String)map.get("detail");
+        return result;
     }
 
 }

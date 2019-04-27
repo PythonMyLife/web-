@@ -15,22 +15,34 @@ public class userController {
     @Autowired
     userService user_serv;
 
+
     @RequestMapping(value="/index",method=RequestMethod.POST)
-    /*@ResponseBody
-    public Integer login(String username, String password) throws Exception {
-        System.out.println(username);
-        return user_serv.identity(username,password);
-    }*/
-    /*public String pass(@RequestBody Map map){
+    @ResponseBody
+    public Integer pass(@RequestBody Map map){
         System.out.println(map);
         String username = (String)map.get("username");
         System.out.println(username);
-        String data = "success";
-        return data;
-    }*/
-    @ResponseBody
-    public String pass(){
-        return "success";
+        String password = (String)map.get("password");
+        System.out.println(password);
+        Integer x = user_serv.identity(username,password);
+        System.out.println(x);
+
+        return x;
     }
 
+    @RequestMapping(value="/regist",method=RequestMethod.POST)
+    @ResponseBody
+    public Integer regist(@RequestBody Map map){
+        System.out.println(map);
+        String username = (String)map.get("username");
+        System.out.println(username);
+        String password = (String)map.get("password");
+        System.out.println(password);
+        String email = (String)map.get("email");
+        System.out.println(email);
+        Integer x = user_serv.regist(username,password,email);
+        System.out.println(x);
+
+        return x;
+    }
 }
