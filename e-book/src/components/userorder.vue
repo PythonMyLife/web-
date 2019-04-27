@@ -4,10 +4,9 @@
             <div id="templatemo_menu">
                 <ul>
                     <li><a href="/index">首页</a></li>
-                    <li><a href="/books">书籍浏览</a></li>
-                    <li><a href="/cart">购物车</a></li>
-                    <li><a href="/regist">注册</a></li>
-                    <li><a href="/userorder" class="current">订单与统计</a></li>
+                    <li><router-link :to="{name:'books',params:{username:this.username}}" >书籍浏览</router-link></li>
+                    <li><router-link :to="{name:'cart',params:{username:this.username}}" >购物车</router-link></li>
+                    <li><a href="#">订单与统计</a></li>
                 </ul>
             </div> <!-- end of menu -->
 
@@ -87,6 +86,7 @@
         name: "userorder",
         data: function () {
             return {
+                username:'',
                 startdate: '',
                 enddate: '',
                 activeIndex: 'orders',
@@ -138,6 +138,9 @@
                         }]
                     }]
             };
+        },
+        mounted () {
+            this.username = this.$route.params.username;
         }
     }
 </script>

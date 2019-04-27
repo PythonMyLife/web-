@@ -53,7 +53,12 @@
             submit(){
                 let form_data = {"username":this.username,"password":this.password};
                 axios.post('http://localhost:8088/ebook/index',form_data).then(response=>{
-                    this.msg = response;
+                    this.msg = response.data;
+                    if(this.msg == -1 ){
+                        this.error = "用户名或密码错误";
+                    }else if(this.msg == 0){
+                        this.$router.push({name:"books",params:{username:this.username}});
+                    }
                 })
             }
         }

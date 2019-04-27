@@ -5,9 +5,9 @@
                 <ul>
                     <li><a href="/index">首页</a></li>
                     <li><a href="/books" class="current">书籍浏览</a></li>
-                    <li><a href="/cart">购物车</a></li>
+                    <li><router-link :to="{name:'cart',params:{username:this.username}}" >购物车</router-link></li>
                     <li><a href="/regist">注册</a></li>
-                    <li><a href="/userorder">订单与统计</a></li>
+                    <li><router-link :to="{name:'userorder',params:{username:this.username}}" >订单与统计</router-link></li>
                 </ul>
             </div> <!-- end of menu -->
 
@@ -35,6 +35,7 @@
                         </template>
                     </el-table-column>
                 </el-table>
+            <h2>{{username}}</h2>
             <div class="cleaner_with_height">&nbsp;</div>
         </div>
     </div>
@@ -47,22 +48,29 @@
         name: 'books',
         data: function() {
             return {
+                message:'',
                 table:[],
-                search: ''
+                search: '',
+                username:''
             }
         },
         mounted () {
             axios
                 .get('http://localhost:8088/ebook/books').then(response => {
                     this.table = response.data;
-                })
+                });
+            this.username = this.$route.params.username;
         },
         methods: {
             handledetail(index, row) {
-                this.$router.push('/subpage');
+                this.$router.push({name:"subpage",params:{data:row.isbn,username:this.username}});
             },
             handleadd(index, row) {
-                this.$alert(row);
+                let form_data = {"username": this.username,"ISBN":row.isbn};
+                axios.post('http://localhost:8088/ebook/carts/add_book',form_data).then(response =>{
+                    this.message = response.status;
+                });
+                this.$alert("加购成功");
             }
         },
     }
