@@ -55,7 +55,7 @@ public class bookServiceImpl implements bookService {
     }
     @Override
     public String detail(String ISBN){
-        String sql = "select detail from subpage where ISBN=?";
+        String sql = "select detail from books where ISBN=?";
         Map map= jdbc_tem.queryForMap(sql,ISBN);
         String result = (String)map.get("detail");
         return result;

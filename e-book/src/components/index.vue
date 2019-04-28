@@ -4,9 +4,9 @@
             <div id="templatemo_menu">
                 <ul>
                     <li><a href="/index" class="current">首页</a></li>
+                    <li><a href="/regist">注册</a></li>
                     <li><a href="/books">书籍浏览</a></li>
                     <li><a href="/cart">购物车</a></li>
-                    <li><a href="/regist">注册</a></li>
                     <li><a href="/userorder">订单与统计</a></li>
                 </ul>
             </div> <!-- end of menu -->

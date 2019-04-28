@@ -3,10 +3,10 @@
         <div id="templatemo_container">
             <div id="templatemo_menu">
                 <ul>
-                    <li><a href="/index">首页</a></li>
+                    <li><a href="/index">退出登录</a></li>
                     <li><router-link :to="{name:'books',params:{username:this.username}}" >书籍浏览</router-link></li>
                     <li><router-link :to="{name:'cart',params:{username:this.username}}" >购物车</router-link></li>
-                    <li><a href="#">订单与统计</a></li>
+                    <li><a href="#" class="current">订单与统计</a></li>
                 </ul>
             </div> <!-- end of menu -->
 
@@ -61,7 +61,7 @@
                                 prop="num">
                         </el-table-column>
                         <el-table-column style="width: 100px;"
-                                label="总价"
+                                label="单价"
                                 prop="price">
                         </el-table-column>
                         <el-table-column
@@ -75,13 +75,14 @@
 
                 </template>
             </el-main>
-
+            <p>{{table}}</p>
             <div class="cleaner_with_height">&nbsp;</div>
         </div>
     </div>
 </template>
 
 <script>
+    import axios from "axios";
     export default {
         name: "userorder",
         data: function () {
@@ -90,6 +91,8 @@
                 startdate: '',
                 enddate: '',
                 activeIndex: 'orders',
+                table:[],
+                ordertable:[],
                 tableData: [
                     {
                         date: '2019-02-23 00:00:01',
@@ -141,6 +144,12 @@
         },
         mounted () {
             this.username = this.$route.params.username;
+            if(this.username == null){
+                this.$router.push({name:"index",params:{}});
+            }
+            axios.get('http://localhost:8088/ebook/all_orders',{params:{username:this.username}}).then(response => {
+                this.table = response.data;
+            });
         }
     }
 </script>

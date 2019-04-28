@@ -3,10 +3,9 @@
     <div id="templatemo_container">
       <div id="templatemo_menu">
         <ul>
-          <li><a href="/index">首页</a></li>
+          <li><a href="/index">退出登录</a></li>
           <li><router-link :to="{name:'books',params:{username:this.username}}" >书籍浏览</router-link></li>
           <li><a href="#" class="current">购物车</a></li>
-          <li><a href="/regist">注册</a></li>
           <li><router-link :to="{name:'userorder',params:{username:this.username}}" >订单与统计</router-link></li>
         </ul>
       </div> <!-- end of menu -->
@@ -45,11 +44,12 @@
                   总价: {{ getTotalAmount }}
                 </el-col>
                 <el-col :span="4" style="text-align: center;">
-                  <el-button type="primary">下单</el-button>
+                  <el-button @click="handleSubmit()" type="primary">下单</el-button>
                 </el-col>
               </el-row>
             </el-card>
           </el-row>
+        <p>{{[this.username]}}</p>
       </div>
     </div> <!-- end of container -->
   </div>
@@ -82,6 +82,9 @@
     },
     mounted () {
       this.username = this.$route.params.username;
+      if(this.username == null){
+        this.$router.push({name:"index",params:{}});
+      }
       axios.get('http://localhost:8088/ebook/carts',{params:{username:this.username}}).then(response => {
         this.table = response.data;
       });
@@ -109,6 +112,11 @@
       handleChange(username,isbn,number){
         let form_data={"username":username,"ISBN":isbn,"number":number};
         axios.post('http://localhost:8088/ebook/carts/change_book',form_data);
+      },
+      handleSubmit(){
+        axios.get('http://localhost:8088/ebook/submit_order',{params:{username:this.username}});
+        this.$alert("下单成功");
+        this.table=[];
       }
     }
   }

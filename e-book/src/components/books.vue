@@ -3,10 +3,9 @@
         <div id="templatemo_container">
             <div id="templatemo_menu">
                 <ul>
-                    <li><a href="/index">首页</a></li>
-                    <li><a href="/books" class="current">书籍浏览</a></li>
+                    <li><a href="/index">退出登录</a></li>
+                    <li><a href="#" class="current">书籍浏览</a></li>
                     <li><router-link :to="{name:'cart',params:{username:this.username}}" >购物车</router-link></li>
-                    <li><a href="/regist">注册</a></li>
                     <li><router-link :to="{name:'userorder',params:{username:this.username}}" >订单与统计</router-link></li>
                 </ul>
             </div> <!-- end of menu -->
@@ -60,6 +59,9 @@
                     this.table = response.data;
                 });
             this.username = this.$route.params.username;
+            if(this.username == null){
+                this.$router.push({name:"index",params:{}});
+            }
         },
         methods: {
             handledetail(index, row) {

@@ -8,7 +8,7 @@ use ebook;
 CREATE TABLE IF NOT EXISTS users (
     `username` VARCHAR(50) NOT NULL,
     `password` VARCHAR(50) NOT NULL,
-    `email` VARCHAR(20) NOT NULL,
+    `email` VARCHAR(50) NOT NULL,
     `status` INT DEFAULT 1,
     `identity` INT DEFAULT 0,
     PRIMARY KEY (`username`)
@@ -16,21 +16,37 @@ CREATE TABLE IF NOT EXISTS users (
 
 /* 每本书的信息 */
 CREATE TABLE IF NOT EXISTS books (
-    `bookname` VARCHAR(50) NOT NULL,
-    `author` VARCHAR(50) NOT NULL,
+    `bookname` VARCHAR(100) NOT NULL,
+    `author` VARCHAR(100) NOT NULL,
     `cover` VARCHAR(100) NOT NULL,
     `ISBN` VARCHAR(13) NOT NULL,
-    `amount` INT UNSIGNED NOT NULL,
+    `num` INT UNSIGNED NOT NULL,
     `price` DECIMAL(10 , 2 ) NOT NULL,
+    `detail` VARCHAR(5000) NOT NULL,
     PRIMARY KEY (`ISBN`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
-/* 将用户、订单、单品联系起来 */
-CREATE TABLE IF NOT EXISTS orders (
-    `order_id` VARCHAR(15) NOT NULL,
+/* 购物车 */
+CREATE TABLE IF NOT EXISTS carts (
     `username` VARCHAR(50) NOT NULL,
-    `time` DATETIME,
-    `status` INT DEFAULT 1,
+    `ISBN` VARCHAR(13) NOT NULL,
+    `num` INT NOT NULL,
+    PRIMARY KEY (`username` , `ISBN`),
+    FOREIGN KEY (`ISBN`)
+        REFERENCES books (`ISBN`)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`username`)
+        REFERENCES users (`username`)
+        ON DELETE CASCADE ON UPDATE CASCADE
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;   
+
+/* 将用户、订单、单品联系起来 */
+/* status表示该订单是否被删除 */
+CREATE TABLE IF NOT EXISTS orders (
+    `order_id` INT UNSIGNED AUTO_INCREMENT,
+    `username` VARCHAR(50) NOT NULL,
+    `time` VARCHAR(20) NOT NULL,
+    `status` INT DEFAULT 0, /* 0没有被删除 */
     PRIMARY KEY (`order_id`),
     FOREIGN KEY (`username`)
         REFERENCES users (`username`)
@@ -39,7 +55,7 @@ CREATE TABLE IF NOT EXISTS orders (
 
 /* 存放订单里的一个条目详细信息 */
 CREATE TABLE IF NOT EXISTS orderitems (
-    `order_id` VARCHAR(15) NOT NULL,
+    `order_id` INT UNSIGNED,
     `item_id` INT UNSIGNED AUTO_INCREMENT,
     `ISBN` VARCHAR(13) NOT NULL,
     `number` INT UNSIGNED NOT NULL,
@@ -51,3 +67,4 @@ CREATE TABLE IF NOT EXISTS orderitems (
         REFERENCES books (`ISBN`)
         ON DELETE CASCADE ON UPDATE CASCADE
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+

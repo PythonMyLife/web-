@@ -5,11 +5,6 @@
         <ul>
           <li><router-link :to="{name:'books',params:{username:this.username}}" >书籍浏览</router-link></li>
           <li><a href="#" class="current">书籍详情</a></li>
-          <form class="b_search">
-            <span>Search</span>
-            <input class="Search" type="text">
-            <button>搜索</button>
-          </form>
         </ul>
       </div> <!-- end of menu -->
 
