@@ -3,6 +3,8 @@ package spring.orders.Service;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import spring.books.Dao.bookMapper;
+import spring.books.Model.book;
 import spring.carts.Dao.cartMapper;
 import spring.carts.Model.cart;
 import spring.orders.Dao.orderMapper;
@@ -51,8 +53,21 @@ public class orderServiceImpl implements orderService{
                 }
             }, keyHolder);
             Number order_id = keyHolder.getKey();
+
             for (cart cart : cartList) {
-                jdbc_tem.update("insert into orderitems(order_id, ISBN, number) values(?, ?, ?)", order_id, cart.getISBN(), cart.getNumber());
+                String isbn = cart.getISBN();
+                Integer newnum = cart.getNumber();
+                try {
+                    book old = jdbc_tem.queryForObject("select * from books where ISBN = ?", new bookMapper(), isbn);
+                    if (old.getNum() < newnum) {
+                        jdbc_tem.update("delete from orders where order_id = ?", order_id);
+                        return old.getBookname() + "库存不足";
+                    }
+                    jdbc_tem.update("insert into orderitems(order_id, ISBN, number) values(?, ?, ?)", order_id, isbn, newnum);
+                    jdbc_tem.update("update books set num = ? where ISBN = ?", old.getNum() - newnum, isbn);
+                }catch (Exception e) {
+
+                }
             }
             jdbc_tem.update("delete from carts where username = ?", username);
             return "成功";
@@ -63,7 +78,7 @@ public class orderServiceImpl implements orderService{
 
     @Override
     public ArrayList<order> getall_orders(String username){
-        String sql_get = "select orders.order_id,cover,bookname,username,time,status,books.ISBN,orderitems.number as number,books.price as totalAmount from orders natural join orderitems join books on orderitems.ISBN=books.ISBN where orders.username=?";
+        String sql_get = "select orders.order_id,cover,bookname,username,time,status,books.ISBN,orderitems.number as number,books.price as totalAmount from orders natural join orderitems join books on orderitems.ISBN=books.ISBN where orders.username=? order by order_id";
         try{
             List<order> order_list = jdbc_tem.query(sql_get,new orderMapper(),username);
             return new ArrayList<>(order_list);

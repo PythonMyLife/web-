@@ -4,9 +4,9 @@
       <div id="templatemo_menu">
         <ul>
           <li><a href="/index" >首页</a></li>
+          <li><a href="/regist" class="current">注册</a></li>
           <li><a href="/books">书籍浏览</a></li>
           <li><a href="/cart">购物车</a></li>
-          <li><a href="/regist" class="current">注册</a></li>
           <li><a href="/userorder">订单与统计</a></li>
         </ul>
       </div> <!-- end of menu -->
@@ -63,17 +63,18 @@ export default {
         this.error = "两次输入的密码应当相同！";
       }else if(!regEmail.test(this.email)){
         this.error = "邮箱格式不正确";
+      }else{
+        let form_data = {"username":this.username,"password":this.password1,"email":this.email};
+        axios.post('http://localhost:8088/ebook/regist',form_data).then(response=>{
+          this.msg = response.data;
+          if(this.msg == 0 ){
+            this.error = "用户名重复！";
+          }else {
+            alert("注册成功！");
+            this.$router.push({name:"books",params:{username:this.username}});
+          }
+        })
       }
-      let form_data = {"username":this.username,"password":this.password1,"email":this.email};
-      axios.post('http://localhost:8088/ebook/regist',form_data).then(response=>{
-        this.msg = response.data;
-        if(this.msg == 0 ){
-          this.error = "用户名重复！";
-        }else {
-          alert("注册成功！");
-          this.$router.push({name:"books",params:{username:this.username}});
-        }
-      })
     },
 
   }

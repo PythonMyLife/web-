@@ -49,7 +49,6 @@
               </el-row>
             </el-card>
           </el-row>
-        <p>{{[this.username]}}</p>
       </div>
     </div> <!-- end of container -->
   </div>
@@ -64,6 +63,7 @@
       return {
         username:'',
         table: [],
+        message:'',
         activeIndex: 'cart',
         cartItems: [{
           id: 1,
@@ -83,6 +83,7 @@
     mounted () {
       this.username = this.$route.params.username;
       if(this.username == null){
+        this.$alert("未登录请先登录");
         this.$router.push({name:"index",params:{}});
       }
       axios.get('http://localhost:8088/ebook/carts',{params:{username:this.username}}).then(response => {
@@ -114,9 +115,13 @@
         axios.post('http://localhost:8088/ebook/carts/change_book',form_data);
       },
       handleSubmit(){
-        axios.get('http://localhost:8088/ebook/submit_order',{params:{username:this.username}});
-        this.$alert("下单成功");
-        this.table=[];
+        axios.get('http://localhost:8088/ebook/submit_order',{params:{username:this.username}}).then(response=>{
+          this.message = response.data;
+          this.$alert(this.message);
+          axios.get('http://localhost:8088/ebook/carts',{params:{username:this.username}}).then(response => {
+            this.table = response.data;
+          });
+        });
       }
     }
   }

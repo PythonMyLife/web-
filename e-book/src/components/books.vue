@@ -34,7 +34,6 @@
                         </template>
                     </el-table-column>
                 </el-table>
-            <h2>{{username}}</h2>
             <div class="cleaner_with_height">&nbsp;</div>
         </div>
     </div>
@@ -60,6 +59,7 @@
                 });
             this.username = this.$route.params.username;
             if(this.username == null){
+                this.$alert("未登录请先登录");
                 this.$router.push({name:"index",params:{}});
             }
         },

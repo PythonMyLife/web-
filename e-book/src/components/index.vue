@@ -58,6 +58,8 @@
                         this.error = "用户名或密码错误";
                     }else if(this.msg == 0){
                         this.$router.push({name:"books",params:{username:this.username}});
+                    }else if(this.msg == 2){
+                        this.error = "您的用户已被禁用！";
                     }
                 })
             }

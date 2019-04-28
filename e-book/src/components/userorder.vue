@@ -10,72 +10,58 @@
                 </ul>
             </div> <!-- end of menu -->
 
-            <el-main style="width: 800px; margin: 0 auto;">
-                <el-card v-for="(order, orderIndex) in orders" :key="orderIndex" class="box-card" style="margin: 10px 0;">
-                    <div slot="header" class="clearfix">
-                        <span><b>{{ order.date }}</b> 订单号：{{ order.orderNumber }}</span>
-                    </div>
-                    <el-row style="text-align: center;">
-                        <el-col :span="16">
-                            <div v-for="(item, itemIndex) in order.items" :key="itemIndex" style="padding: 10px 0; border-bottom: 1px solid #eff2f6">
-                                <el-row>
-                                    <el-col :span="6">
-                                        <img :src="item.cover" style="width: 100px;">
-                                    </el-col>
-                                    <el-col :span="6" style="line-height: 103.8px">
-                                        {{ item.title }}
-                                    </el-col>
-                                    <el-col :span="6" style="height: 103.8px; display: flex; justify-content: center; flex-direction: column;">
-                                        数量<br>{{ item.number }}
-                                    </el-col>
-                                    <el-col :span="6" style="height: 103.8px; display: flex; justify-content: center; flex-direction: column;">
-                                        价格<br>{{ item.amount }}
-                                    </el-col>
-                                </el-row>
-                            </div>
-                        </el-col>
-                        <el-col :span="4" style="height: 249.6px; display: flex; justify-content: center; flex-direction: column;">
-                            总数<br>{{ order.number }}
-                        </el-col>
-                        <el-col :span="4" style="height: 249.6px; display: flex; justify-content: center; flex-direction: column;">
-                            总价<br>{{ order.totalAmount }}
-                        </el-col>
-                    </el-row>
-                </el-card>
-
+            <el-main style="width: 900px; margin: 0 auto;">
+                <h2>订单：</h2>
+                <el-table :data="items.filter(data => (!startdate || data.time >= startdate) &&(!enddate || data.time <= enddate))" :span-method="objectSpanMethod" border style="width: 100%; margin-top: 20px">
+                    <el-table-column align="center" prop="order_id" label="订单号" width="100"></el-table-column>
+                    <el-table-column align="center" prop="time" label="日期" width="160"></el-table-column>
+                    <el-table-column align="center" prop="cover" label="封面" width="110">
+                        <template slot-scope="scope">
+                            <img :src="scope.row.cover" style="width: 80px; height: 120px">
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center" prop="bookname" label="书名"></el-table-column>
+                    <el-table-column align="center" prop="totalAmount" label="单价"></el-table-column>
+                    <el-table-column align="center" prop="number" label="数量"></el-table-column>
+                    <el-table-column align="center" prop="total" width="200">
+                        <template slot="header" slot-scope="scope">
+                            <el-input v-model="startdate" type="date" style="width: 170px;"/>
+                            <el-input v-model="enddate"   type="date" style="width: 170px;"/>
+                        </template>
+                    </el-table-column>
+                </el-table>
                 <h2>统计:</h2>
                 <template>
                     <el-table
-                            :data="tableData.filter(data => (!startdate || data.date >= startdate) &&(!enddate || data.date <= enddate))"
+                            :data="items.filter(data => (!starttime || data.time >= starttime) &&(!endtime || data.time <= endtime))"
                             style="width: 100%">
                         <el-table-column
                                 label="时间"
-                                prop="date">
+                                prop="time">
                         </el-table-column>
                         <el-table-column
                                 label="书名"
-                                prop="book">
+                                prop="bookname">
                         </el-table-column>
                         <el-table-column
                                 label="数量"
-                                prop="num">
+                                prop="number">
                         </el-table-column>
                         <el-table-column style="width: 100px;"
-                                label="单价"
-                                prop="price">
+                                         label="单价"
+                                         prop="totalAmount">
                         </el-table-column>
                         <el-table-column
                                 align="left">
                             <template slot="header" slot-scope="scope">
-                                <el-input v-model="startdate" type="date" size="mini" style="width: 150px;"/>
-                                <el-input v-model="enddate"   type="date" size="mini" style="width: 150px;"/>
+                                <el-input v-model="starttime" type="date" size="mini" style="width: 150px;"/>
+                                <el-input v-model="endtime"   type="date" size="mini" style="width: 150px;"/>
                             </template>
                         </el-table-column>
                     </el-table>
-
                 </template>
+
             </el-main>
-            <p>{{table}}</p>
             <div class="cleaner_with_height">&nbsp;</div>
         </div>
     </div>
@@ -83,75 +69,70 @@
 
 <script>
     import axios from "axios";
+
     export default {
-        name: "userorder",
+        name: 'orders',
         data: function () {
             return {
-                username:'',
+                username: '',
+                activeIndex: 'orders',
+                items: [],
+                spanArr: [],
                 startdate: '',
                 enddate: '',
-                activeIndex: 'orders',
-                table:[],
-                ordertable:[],
-                tableData: [
-                    {
-                        date: '2019-02-23 00:00:01',
-                        book: '深入理解计算机系统',
-                        num: 1,
-                        price: 99
-                    }, {
-                        date: '2019-01-24 23:03:05',
-                        book: '毛泽东语录',
-                        num: 2,
-                        price: 100
-                    }
-                ],
-                orders: [
-                    {
-                        date: '2019-04-01',
-                        orderNumber: 1651194849,
-                        number: 2,
-                        totalAmount: 200.00,
-                        items: [{
-                            cover: require('../assets/ics.jpg'),
-                            title: '数据结构',
-                            number: 1,
-                            amount: '100.00'
-                        }, {
-                            cover: require('../assets/database.jpg'),
-                            title: '软件工程原理',
-                            number: 2,
-                            amount: '100.00'
-                        }]
-                    }, {
-                        date: '2019-04-01',
-                        orderNumber: 1651195445,
-                        number: 2,
-                        totalAmount: 200.00,
-                        items: [{
-                            cover: require('../assets/database.jpg'),
-                            title: '数据库系统概念',
-                            number: 1,
-                            amount: '100.00'
-                        }, {
-                            cover: require('../assets/ics.jpg'),
-                            title: '深入理解计算机系统',
-                            number: 2,
-                            amount: '100.00'
-                        }]
-                    }]
+                starttime:'',
+                endtime:''
             };
         },
         mounted () {
             this.username = this.$route.params.username;
+            if (this.username === '') {
+                alert("请登录后查看订单！");
+                this.$router.push({name: "index"});
+            }
             if(this.username == null){
+                this.$alert("未登录请先登录");
                 this.$router.push({name:"index",params:{}});
             }
-            axios.get('http://localhost:8088/ebook/all_orders',{params:{username:this.username}}).then(response => {
-                this.table = response.data;
-            });
+            let form = {"username": this.username};
+            axios
+                .post('http://localhost:8088/ebook/all_orders', form)
+                .then(response => {
+                    this.items = response.data;
+                    for (let i = 0; i < this.items.length; i++) {
+                        this.$set(this.items[i],'total',0);
+                        if (i === 0) {
+                            this.spanArr.push(1);
+                            this.pos = 0;
+                            this.items[i].total = this.items[i].totalAmount * this.items[i].number;
+                        } else {
+                            // 判断当前元素与上一个元素是否相同
+                            if (this.items[i].order_id === this.items[i - 1].order_id) {
+                                this.spanArr[this.pos] += 1;
+                                this.spanArr.push(0);
+                                this.items[this.pos].total += this.items[i].totalAmount * this.items[i].number;
+                            } else {
+                                this.spanArr.push(1);
+                                this.pos = i;
+                                this.items[this.pos].total = this.items[i].totalAmount * this.items[i].number;
+                            }
+                        }
+                    }
+                })
+        },
+        methods: {
+            objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+                if (columnIndex === 0 || columnIndex === 1 || columnIndex === 6) {
+                    const _row = this.spanArr[rowIndex];
+                    const _col = _row > 0 ? 1 : 0;
+                    return {
+                        rowspan: _row,
+                        colspan: _col
+                    }
+                }
+            }
         }
-    }
+    };
 </script>
 
 <style scoped>

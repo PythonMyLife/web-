@@ -19,6 +19,6 @@ public class orderMapper implements RowMapper<order> {
         Integer number = resultSet.getInt("number");
         Double totalAmount = resultSet.getDouble("totalAmount");
         /*把数据封装成order对象 */
-        return new order(order_id, cover, bookname, username, time, status, ISBN, number, totalAmount);
+        return new order(order_id, bookname, cover, username, time, status, ISBN, number, totalAmount);
     }
 }
