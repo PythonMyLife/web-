@@ -26,6 +26,12 @@ public class bookServiceImpl implements bookService {
     }
 
     @Override
+    public void change(book book){
+        delete(book.getISBN());
+        insert(book);
+    }
+
+    @Override
     public void delete(String ISBN){
         jdbc_tem.update("delete from books where ISBN= ?",ISBN);
     }

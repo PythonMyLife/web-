@@ -16,53 +16,53 @@ import userorder from '../components/userorder.vue'
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
-  routes: [{
-    path: '*',
-    redirect: '/index'
-  },{
-    path: '/index',
-    name: 'index',
-    component: index
-  }, {
-    path: '/userorder',
-    name: 'userorder',
-    component: userorder
-  }, {
-    path: '/manager',
-    name: 'manager',
-    component: manager
-  }, {
-    path: '/books',
-    name: 'books',
-    component: books
-  },{
-    path: '/home',
-    name: 'Home',
-    component: Home
-  }, {
-    path: '/login',
-    name: 'login',
-    component: Login
-  }, {
-    path: '/regist',
-    name: 'regist',
-    component: Regist
-  }, {
-    path: '/subpage',
-    name: 'subpage',
-    component: Subpage
-  }, {
-    path: '/cart',
-    name: 'cart',
-    component: Cart
-  }, {
-    path: '/manage',
-    name: 'manage',
-    component: Manage
-  }, {
-    path: '/order',
-    name: 'order',
-    component: Order
-  }]
+    mode: 'history',
+    routes: [{
+        path: '*',
+        redirect: '/index'
+    },{
+        path: '/index',
+        name: 'index',
+        component: index
+    }, {
+        path: '/userorder',
+        name: 'userorder',
+        component: userorder
+    }, {
+        path: '/manager',
+        name: 'manager',
+        component: manager
+    }, {
+        path: '/books',
+        name: 'books',
+        component: books
+    },{
+        path: '/home',
+        name: 'Home',
+        component: Home
+    }, {
+        path: '/login',
+        name: 'login',
+        component: Login
+    }, {
+        path: '/regist',
+        name: 'regist',
+        component: Regist
+    }, {
+        path: '/subpage',
+        name: 'subpage',
+        component: Subpage
+    }, {
+        path: '/cart',
+        name: 'cart',
+        component: Cart
+    }, {
+        path: '/manage',
+        name: 'manage',
+        component: Manage
+    }, {
+        path: '/order',
+        name: 'order',
+        component: Order
+    }]
 });
