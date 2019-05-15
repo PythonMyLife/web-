@@ -6,6 +6,7 @@ import spring.users.Dao.userMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,29 +21,16 @@ public class userServiceImpl implements userService {
     private JdbcTemplate jdbc_tem;
 
     @Override
-    public void change_status(String username){
+    public void changeStatus(String username){
         user user_change = jdbc_tem.queryForObject("SELECT * FROM users WHERE username = ?", new userMapper(), username);
-        jdbc_tem.update("insert into users(username,password,email,status,identity) values (?,?,?,?,?)",
-                user_change.getUsername(),user_change.getPassword(),user_change.getEmail(),user_change.getStatus(),1-user_change.getIdentity());
+        jdbc_tem.update("update users set status=? where username=?",(1-user_change.getStatus()),username);
     }
 
     @Override
-    public ArrayList<user> getall_users(){
-        String sql = "SELECT * FROM users";
-        ArrayList<user> userlist = new ArrayList<>();
-        jdbc_tem.query(sql, new Object[]{}, new RowCallbackHandler() {
-            @Override
-            public void processRow(ResultSet resultSet) throws SQLException {
-                user user = new user();
-                user.setUsername(resultSet.getString("username"));
-                //user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                user.setStatus(resultSet.getInt("status"));
-                user.setIdentity(resultSet.getInt("identity"));
-                userlist.add(user);
-            }
-        });
-        return userlist;
+    public ArrayList<user> getUsers(){
+        String sql = "SELECT * FROM users WHERE identity <> 1";
+        List<user> userlist = jdbc_tem.query(sql, new userMapper());
+        return (ArrayList<user>) userlist;
     }
 
     @Override

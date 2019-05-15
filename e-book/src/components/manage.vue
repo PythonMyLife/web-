@@ -3,12 +3,9 @@
     <div id="templatemo_container">
       <div id="templatemo_menu">
         <ul>
-          <li><a href="/index">首页</a></li>
-          <li><a href="/cart">购物车</a></li>
-          <li><a href="/login">登录</a></li>
-          <li><a href="/regist">注册</a></li>
+          <li><a href="/index">退出登录</a></li>
           <li><a href="/manage" class="current">权限管理</a></li>
-          <li><a href="/order">订单管理</a></li>
+          <li><router-link :to="{name:'order',params:{username:this.username}}" >订单管理</router-link></li>
         </ul>
       </div> <!-- end of menu -->
 
@@ -21,10 +18,15 @@
                   label="用户名"
                   width="180">
           </el-table-column>
-          <el-table-column property="status" align="center" label="权限状态">
+          <el-table-column label="账号状态" width="300">
             <template slot-scope="scope">
-              <el-switch active-color="#ff4949" inactive-color="#13ce66" v-model="scope.row.status" @change=change(scope.$index,scope.row)>
-              </el-switch>
+              <el-button type="text" size="small" style="color: crimson" v-if="scope.row.status === 1">已禁用</el-button>
+              <el-button type="text" size="small" style="color: blue" v-else>未禁用</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" property="status" align="center">
+            <template slot-scope="scope">
+              <el-button size="mini" @click="handleChange(scope.row.username)">更改状态</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -34,24 +36,39 @@
 </template>
 
 <script>
-export default {
-  name: 'manage',
-  data() {
-    return {
-      tableData: [{
-        index:1,
-        username:'用户1'
-      }, {
-        index:2,
-        username:'用户2'
-      },{
-        index:3,
-        username:'用户3'
-      },{
-        index:3,
-        username:'用户4'
-      }]
-    }
+  import axios from "axios";
+
+  export default {
+    name: 'manage',
+    data: function () {
+      return {
+        username:"",
+        tableData: []
+      }
+    },
+    mounted () {
+      axios.get('http://localhost:8088/ebook/getUsers').then(response => {
+        this.tableData = response.data;
+      });
+      this.username = this.$route.params.username;
+      if(this.username == null){
+        this.$alert("未登录请先登录");
+        this.$router.push({name:"index",params:{}});
+      }
+    },
+    methods: {
+      handleChange(username){
+        axios.post('http://localhost:8088/ebook/changeStatus',{"username":username}).then(response =>{
+          if(response.data === 0){
+            this.$alert("更改失败");
+          }else{
+            this.$alert("更改成功");
+          }
+          axios.get('http://localhost:8088/ebook/getUsers').then(response => {
+            this.tableData = response.data;
+          });
+        })
+      }
+    },
   }
-}
 </script>

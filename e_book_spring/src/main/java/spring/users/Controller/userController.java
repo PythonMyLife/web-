@@ -1,11 +1,13 @@
 package spring.users.Controller;
 
 import org.springframework.web.bind.annotation.*;
+import spring.users.Model.user;
 import spring.users.Service.userService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Controller
@@ -44,5 +46,24 @@ public class userController {
         System.out.println(x);
 
         return x;
+    }
+
+    @RequestMapping(value="/changeStatus",method = RequestMethod.POST)
+    @ResponseBody
+    public Integer changeStatus(@RequestBody Map map){
+        String username = (String)map.get("username");
+        System.out.println(username);
+        try{
+            user_serv.changeStatus(username);
+            return 1;
+        }catch(Exception e){
+            return 0;
+        }
+    }
+    @RequestMapping(value="/getUsers", method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<user> getUsers(){
+        ArrayList<user> result = user_serv.getUsers();
+        return result;
     }
 }

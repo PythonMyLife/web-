@@ -54,11 +54,13 @@
                 let form_data = {"username":this.username,"password":this.password};
                 axios.post('http://localhost:8088/ebook/index',form_data).then(response=>{
                     this.msg = response.data;
-                    if(this.msg == -1 ){
+                    if(this.msg === -1 ){
                         this.error = "用户名或密码错误";
-                    }else if(this.msg == 0){
+                    }else if(this.msg === 0){
                         this.$router.push({name:"books",params:{username:this.username}});
-                    }else if(this.msg == 2){
+                    }else if(this.msg === 1){
+                        this.$router.push({name:"manage",params:{username:this.username}});
+                    }else if(this.msg === 2){
                         this.error = "您的用户已被禁用！";
                     }
                 })
