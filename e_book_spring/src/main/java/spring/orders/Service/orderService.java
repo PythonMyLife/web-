@@ -10,4 +10,7 @@ public interface orderService {
 
     /* 查看单个用户的所有订单 */
     ArrayList<order> getall_orders(String username);
+
+    /* 查看所有用户的所有订单 */
+    ArrayList<order> getOrders();
 }

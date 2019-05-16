@@ -37,4 +37,11 @@ public class orderController {
         return orders;
     }
 
+    @RequestMapping(value = "/getOrders",method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<order> getOrders(){
+        ArrayList<order> orders= order_serv.getOrders();
+        return orders;
+    }
+
 }

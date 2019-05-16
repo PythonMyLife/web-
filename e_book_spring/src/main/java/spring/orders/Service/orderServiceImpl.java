@@ -87,4 +87,16 @@ public class orderServiceImpl implements orderService{
         }
         return new ArrayList<>();
     }
+
+    @Override
+    public ArrayList<order> getOrders(){
+        String sql_get = "select orders.order_id,cover,bookname,username,time,status,books.ISBN,orderitems.number as number,books.price as totalAmount from orders natural join orderitems join books on orderitems.ISBN=books.ISBN order by order_id";
+        try{
+            List<order> order_list = jdbc_tem.query(sql_get,new orderMapper());
+            return new ArrayList<>(order_list);
+        }catch (Exception e){
+            System.out.println("失败");
+        }
+        return new ArrayList<>();
+    }
 }
