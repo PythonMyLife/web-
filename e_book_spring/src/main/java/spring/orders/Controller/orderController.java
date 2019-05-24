@@ -40,8 +40,7 @@ public class orderController {
     @RequestMapping(value = "/getOrders",method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<order> getOrders(){
-        ArrayList<order> orders= order_serv.getOrders();
-        return orders;
+        return order_serv.getOrders();
     }
 
 }
