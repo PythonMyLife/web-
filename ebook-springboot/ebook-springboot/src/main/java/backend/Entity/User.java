@@ -15,14 +15,8 @@ public class User {
     private String username;
     private String password;
     private String email;
-    /**
-     * 0->被禁，1->未被禁
-     */
-    private Integer status;
-    /**
-     * 0->普通用户，1->管理员
-     */
-    private Integer identity;
+    private Integer status;  //0未禁用，1被禁用
+    private Integer identity; //0普通用户，1管理员
 
     @Basic
     @Column(name = "username")
@@ -97,6 +91,17 @@ public class User {
         }
 
         return true;
+    }
+
+    @Override
+    public int hashCode(){
+        int result = 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (identity != null ? identity.hashCode() : 0);
+        return result;
     }
 
 }

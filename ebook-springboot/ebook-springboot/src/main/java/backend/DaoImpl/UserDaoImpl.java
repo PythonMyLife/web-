@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.google.common.base.Optional;
 
+import java.util.List;
+
 @Repository
 public class UserDaoImpl implements UserDao {
     @Autowired
@@ -29,19 +31,13 @@ public class UserDaoImpl implements UserDao {
     public User findOne(String username) {
         return userRepository.getOne(username);
     }
-
     @Override
-    public Optional<User> findByUsername(String username) {
+    public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public Page<User> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

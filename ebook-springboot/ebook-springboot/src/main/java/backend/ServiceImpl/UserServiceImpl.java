@@ -3,13 +3,11 @@ package backend.ServiceImpl;
 import backend.Dao.UserDao;
 import backend.Entity.User;
 import backend.Service.UserService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Map;
-import com.google.common.base.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +17,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user) {
-        user.setStatus(1);
+        user.setStatus(0);
         user.setIdentity(0);
         user.setPassword(user.getPassword());
         userDao.addUser(user);
@@ -29,12 +27,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByUsername(String username) {
         return userDao.findOne(username);
-    }
-
-    @Override
-    public Page<User> findUserByPage(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return userDao.findAll(pageable);
     }
 
     @Override
@@ -61,24 +53,38 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean nameIsValid(String username) {
-        Optional<User> optionalUser = userDao.findByUsername(username);
-        User user = optionalUser.orNull();
-        if(user != null) {
-            return false;
-        }
-        return true;
+        if(userDao.findByUsername(username)== null) return true;
+        return false;
     }
 
     @Override
     public boolean checkPassword(User user) {
-        Optional<User> optionalUser = userDao.findByUsername(user.getUsername());
-        User userFind = optionalUser.orNull();
-        if(userFind == null || userFind.getStatus() == 0) {
+        try{
+            User userFind = userDao.findOne(user.getUsername());
+            if(user.getPassword().equals(userFind.getPassword())) {
+                return true;
+            }else {
+                return false;
+            }
+        }catch(Exception e){
             return false;
         }
-        else if(user.equals(userFind)) {
-            return true;
+    }
+
+    @Override
+    public Integer checkStatusAndIdentity(String username){
+        User userFind = userDao.findOne(username);
+        if(userFind.getStatus().equals(1)){
+            return 2;
+        }else if(userFind.getIdentity().equals(1)){
+            return 1;
+        }else {
+            return 0;
         }
-        return false;
+    }
+
+    @Override
+    public List<User> findAll(){
+        return userDao.findAll();
     }
 }

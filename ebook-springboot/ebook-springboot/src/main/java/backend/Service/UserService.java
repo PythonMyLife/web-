@@ -4,13 +4,13 @@ import backend.Entity.User;
 import org.springframework.data.domain.Page;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
     User addUser(User user);
 
     User findUserByUsername(String username);
-    Page<User> findUserByPage(int page, int size);
 
     @Transactional
     boolean deleteUser(String username);
@@ -20,4 +20,10 @@ public interface UserService {
     boolean nameIsValid(String username);
 
     boolean checkPassword(User user);
+
+    Integer checkStatusAndIdentity(String username);
+
+    List<User> findAll();
+
+
 }

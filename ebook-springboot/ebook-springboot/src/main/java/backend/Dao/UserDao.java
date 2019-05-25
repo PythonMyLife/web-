@@ -6,22 +6,19 @@ import org.springframework.data.domain.Pageable;
 
 import com.google.common.base.Optional;
 
+import java.util.List;
+
 public interface UserDao {
-    /**
-     * Create methods
-     */
+    //增加user
     User addUser(User user);
 
-    /**
-     * Delete methods
-     */
+    //删除user
     boolean deleteUser(String username);
 
-    /**
-     * Query methods
-     */
+    //通过username查找user
     User findOne(String username);
-    Optional<User> findByUsername(String username);
-    Optional<User> findByEmail(String email);
-    Page<User> findAll(Pageable pageable);
+    User findByUsername(String username);
+
+    //查找全部user
+    List<User> findAll();
 }
