@@ -4,6 +4,7 @@ package backend.Entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import io.swagger.models.auth.In;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -17,8 +18,8 @@ public class OrderItem {
     @Id
     private Integer item_id;
 
-    @ManyToOne(targetEntity = Order.class)
-    @JoinColumn(name = "order_id", referencedColumnName = "order_id")
+    @Basic
+    @Column(name = "order_id")
     private Integer order_id;
 
     @ManyToOne(targetEntity = Book.class)

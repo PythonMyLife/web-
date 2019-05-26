@@ -15,6 +15,7 @@ import java.util.Objects;
 public class Order {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id
+    @Column(name = "order_id")
     private Integer order_id;
 
     @ManyToOne(targetEntity = User.class)
