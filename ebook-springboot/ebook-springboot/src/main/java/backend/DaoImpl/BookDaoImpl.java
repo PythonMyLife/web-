@@ -35,4 +35,10 @@ public class BookDaoImpl implements BookDao {
     public void deleteBook(String isbn){
         bookRepository.deleteByIsbn(isbn);
     }
+
+    @Override
+    public void setBookNum(Book book, Integer num){
+        book.setNum(num);
+        bookRepository.save(book);
+    }
 }

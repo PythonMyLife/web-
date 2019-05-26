@@ -17,23 +17,23 @@
             </div>
             <el-row v-for="(item, index) in table" :key="index" style="padding: 10px 0; border-bottom: 1px solid #eff2f6">
               <el-col :span="4" style="line-height: 103.8px">
-                <img :src="item.cover" style="width: 70px">
+                <img :src="item.book.cover" style="width: 70px">
               </el-col>
               <el-col :span="4" style="line-height: 103.8px">
-                {{ item.title }}
+                {{ item.book.bookname }}
               </el-col>
               <el-col :span="3" style="height: 104px; display: flex; justify-content: center; flex-direction: column;">
-                单价：{{ item.price }}
+                单价：{{ item.book.price }}
               </el-col>
               <el-col :span="4" style="height: 104px; display: flex; justify-content: center; flex-direction: column;">
                 数量：
-                <el-input-number v-model="item.number" :precision="0" @change="handleChange(item.username,item.isbn,item.number)" size="small" :min="1" :max="99"></el-input-number>
+                <el-input-number v-model="item.num" :precision="0" @change="handleChange(username,item.book.isbn,item.num)" size="small" :min="1" :max="99"></el-input-number>
               </el-col>
               <el-col :span="3" style="height: 104px; display: flex; justify-content: center; flex-direction: column;">
-                总价：{{ item.price * item.number }}
+                总价：{{ item.book.price * item.num }}
               </el-col>
               <el-col :span="5" style="line-height: 104px">
-                <el-button  circle @click="handleDelete(item.isbn)">删除</el-button>
+                <el-button  circle @click="handleDelete(item.book.isbn)">删除</el-button>
               </el-col>
             </el-row>
           </el-card>
@@ -86,7 +86,7 @@
         this.$alert("未登录请先登录");
         this.$router.push({name:"index",params:{}});
       }
-      axios.get('http://localhost:8088/ebook/carts',{params:{username:this.username}}).then(response => {
+      axios.get('http://localhost:8088/ebook/get_user_carts',{params:{username:this.username}}).then(response => {
         this.table = response.data;
       });
     },
@@ -94,7 +94,7 @@
       getTotalAmount() {
         var s = 0;
         for (var i = 0; i < this.table.length; i++) {
-          s += (this.table[i].number * this.table[i].price)
+          s += (this.table[i].num * this.table[i].book.price)
         }
         return s;
       }
@@ -103,22 +103,22 @@
       handleDelete(isbn) {
         for (var i = 0; i < this.table.length; i++)
         {
-          if (this.table[i].isbn == isbn) {
-            let form_data={"username":this.table[i].username,"ISBN":this.table[i].isbn};
-            axios.post('http://localhost:8088/ebook/carts/handle_delete',form_data);
+          if (this.table[i].book.isbn === isbn) {
+            let form_data={"username":this.username,"isbn":this.table[i].book.isbn};
+            axios.post('http://localhost:8088/ebook/deletecart',form_data);
             this.table.splice(i, 1);
           }
         }
       },
       handleChange(username,isbn,number){
-        let form_data={"username":username,"ISBN":isbn,"number":number};
-        axios.post('http://localhost:8088/ebook/carts/change_book',form_data);
+        let form_data={"username":username,"isbn":isbn,"num":number};
+        axios.get('http://localhost:8088/ebook/savecart',{params:form_data});
       },
       handleSubmit(){
-        axios.get('http://localhost:8088/ebook/submit_order',{params:{username:this.username}}).then(response=>{
+        axios.get('http://localhost:8088/ebook/submitorder',{params:{username:this.username}}).then(response=>{
           this.message = response.data;
           this.$alert(this.message);
-          axios.get('http://localhost:8088/ebook/carts',{params:{username:this.username}}).then(response => {
+          axios.get('http://localhost:8088/ebook/get_user_carts',{params:{username:this.username}}).then(response => {
             this.table = response.data;
           });
         });

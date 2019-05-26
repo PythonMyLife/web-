@@ -1,9 +1,7 @@
 package backend.Entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import io.swagger.models.auth.In;
 
 import javax.persistence.*;
@@ -12,10 +10,11 @@ import java.util.Objects;
 @Entity
 @Table(name = "orderitems", schema = "ebook")
 @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "item_id")
 public class OrderItem {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id
+    @JsonBackReference
+    @JsonManagedReference
     private Integer item_id;
 
     @Basic

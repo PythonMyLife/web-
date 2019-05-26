@@ -4,12 +4,10 @@ package backend.Controller;
 import backend.Entity.Cart;
 import backend.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ebook")
@@ -29,15 +27,26 @@ public class CartController {
         return cartService.saveCart(username, isbn, num);
     }
 
-    @RequestMapping(value="/get_user_orders", method = RequestMethod.GET)
+    @RequestMapping(value="/get_user_carts", method = RequestMethod.GET)
     @ResponseBody
     public List<Cart> getUserCarts(String username){
         List<Cart> cartList =  cartService.getAllUserCart(username);
-        for(Cart cart:cartList){
-            cart.getUser().setPassword("");
-            cart.getUser().setStatus(0);
-            cart.getUser().setIdentity(0);
-        }
         return cartList;
+    }
+
+    @RequestMapping(value="/addcart", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean addCart(@RequestBody Map map){
+        String username = (String) map.get("username");
+        String isbn = (String) map.get("isbn");
+        return cartService.addCart(username, isbn);
+    }
+
+    @RequestMapping(value="/deletecart", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean deleteCart(@RequestBody Map map){
+        String username = (String) map.get("username");
+        String isbn = (String) map.get("isbn");
+        return cartService.deleteCart(username, isbn);
     }
 }

@@ -43,4 +43,9 @@ public class CartDaoImpl implements CartDao {
             return false;
         }
     }
+
+    @Override
+    public Cart getCartByUserAndIsbn(String username, String isbn){
+        return cartRepository.findByUser_UsernameAndBook_Isbn(username, isbn);
+    }
 }

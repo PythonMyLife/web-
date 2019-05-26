@@ -68,8 +68,8 @@
                 this.$router.push({name:"subpage",params:{data:row.isbn,username:this.username}});
             },
             handleadd(index, row) {
-                let form_data = {"username": this.username,"ISBN":row.isbn};
-                axios.post('http://localhost:8088/ebook/carts/add_book',form_data).then(response =>{
+                let form_data = {"username": this.username,"isbn":row.isbn};
+                axios.post('http://localhost:8088/ebook/addcart',form_data).then(response =>{
                     this.message = response.status;
                 });
                 this.$alert("加购成功");

@@ -29,7 +29,14 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<Cart> getAllUserCart(String username){
-        return cartDao.getUserCart(username);
+        List<Cart> cartList = cartDao.getUserCart(username);
+        for(Cart cart:cartList){
+            cart.getUser().setPassword(null);
+            cart.getUser().setEmail(null);
+            cart.getUser().setStatus(null);
+            cart.getUser().setIdentity(null);
+        }
+        return cartList;
     }
 
     @Override
@@ -43,5 +50,36 @@ public class CartServiceImpl implements CartService {
         cartDao.deleteCart(book, user);
         cartDao.saveCart(cart);
         return true;
+    }
+
+    @Override
+    public Boolean addCart(String username, String isbn){
+        try{
+            Cart cart = cartDao.getCartByUserAndIsbn(username, isbn);
+            cart.setNum(cart.getNum() + 1);
+            cartDao.saveCart(cart);
+        }catch (Exception e){
+            Cart cart = new Cart();
+            Book book = bookDao.findByIsbn(isbn);
+            User user = userDao.findByUsername(username);
+            cart.setNum(1);
+            cart.setBook(book);
+            cart.setUser(user);
+            cartDao.saveCart(cart);
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean deleteCart(String username, String isbn){
+        try{
+            Book book = bookDao.findByIsbn(isbn);
+            User user = userDao.findByUsername(username);
+            cartDao.deleteCart(book, user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+
     }
 }

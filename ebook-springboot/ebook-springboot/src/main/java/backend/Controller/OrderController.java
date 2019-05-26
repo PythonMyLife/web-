@@ -21,4 +21,16 @@ public class OrderController {
     public List<Order> getOrders(){
         return orderService.findAllOrder();
     }
+
+    @RequestMapping(value="/getuserorder",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Order> getUserOrder(String username){
+        return orderService.findAllOrderByUsernameAndStatus(username);
+    }
+
+    @RequestMapping(value="/submitorder", method = RequestMethod.GET)
+    @ResponseBody
+    public Boolean submitOrder(String username){
+        return orderService.submitOrder(username);
+    }
 }

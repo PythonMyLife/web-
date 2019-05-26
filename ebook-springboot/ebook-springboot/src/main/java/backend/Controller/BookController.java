@@ -23,4 +23,10 @@ public class BookController {
         List<Book> bookList = bookService.findAllBook();
         return bookList;
     }
+
+    @RequestMapping(value="/subpage", method = RequestMethod.GET)
+    @ResponseBody
+    public String subpage(String isbn){
+        return bookService.findByIsbn(isbn).getDetail();
+    }
 }

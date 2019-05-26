@@ -16,4 +16,7 @@ public interface BookDao {
 
     //删除一本书
     void deleteBook(String isbn);
+
+    //设置一本书的数量
+    void setBookNum(Book book, Integer num);
 }

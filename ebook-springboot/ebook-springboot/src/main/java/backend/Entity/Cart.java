@@ -1,9 +1,7 @@
 package backend.Entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -11,11 +9,12 @@ import java.util.Objects;
 @Entity
 @Table(name = "carts", schema = "ebook")
 @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "cart_id")
 public class Cart {
 
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id
+    @JsonBackReference
+    @JsonManagedReference
     private Integer cart_id;
 
     @ManyToOne(targetEntity = User.class)
