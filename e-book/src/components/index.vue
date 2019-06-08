@@ -29,7 +29,6 @@
                     </aside>
                 </section>
             </article>
-            <p>{{msg}}</p>
             <div class="cleaner_with_height">&nbsp;</div>
         </div>
     </div>
