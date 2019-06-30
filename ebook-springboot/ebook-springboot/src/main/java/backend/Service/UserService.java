@@ -25,5 +25,11 @@ public interface UserService {
 
     List<User> findAll();
 
+    List<User> findAllUser();
+
+    boolean changeStatus(String username);
+
+    boolean regist(String username, String password, String email);
+
 
 }

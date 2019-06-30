@@ -11,6 +11,8 @@ import index from '../components/index.vue'
 import books from '../components/books.vue'
 import manager from '../components/manager.vue'
 import userorder from '../components/userorder.vue'
+import bookmanage from '../components/bookmanage.vue'
+import statistics from '../components/statistics.vue'
 
 
 Vue.use(Router);
@@ -64,5 +66,13 @@ export default new Router({
         path: '/order',
         name: 'order',
         component: Order
+    }, {
+        path: '/bookmanage',
+        name: 'bookmanage',
+        component: bookmanage
+    }, {
+        path: '/statistics',
+        name: 'statistics',
+        component: statistics
     }]
 });

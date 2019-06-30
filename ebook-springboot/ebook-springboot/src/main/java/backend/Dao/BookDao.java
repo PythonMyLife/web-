@@ -5,8 +5,13 @@ import backend.Entity.Book;
 import java.util.List;
 
 public interface BookDao {
+
+    void save(Book book);
     //得到全部的书
     List<Book> findAll();
+
+    //得到库存不为0的书
+    List<Book> findAllByNumValid();
 
     //得到一本书
     Book findByIsbn(String isbn);

@@ -53,7 +53,7 @@ public class Book {
     @Basic
     @Column(name = "detail")
     public String getDetail(){return detail;}
-    public void setDetail(){ this.detail = detail; }
+    public void setDetail(String detail){ this.detail = detail; }
 
     @Override
     public boolean equals(Object o){

@@ -106,8 +106,24 @@
                                 <el-input v-model="starttime" type="date" size="mini" style="width: 150px;"/>
                                 终止时间：
                                 <el-input v-model="endtime"   type="date" size="mini" style="width: 150px;"/>
+                                <el-button @click="statistics()">确定</el-button>
                             </p>
                         </template>
+                    </el-row>
+
+                    <el-row v-for="data in spanArr" :key="data" style="padding: 10px 0; border-bottom: 1px solid #eff2f6">
+                        <el-col :span="4" style="line-height: 103.8px">
+                            {{data.isbn}}
+                        </el-col>
+                        <el-col :span="4" style="line-height: 103.8px">
+                            {{ data.bookname }}
+                        </el-col>
+                        <el-col :span="3" style="height: 104px; display: flex; justify-content: center; flex-direction: column;">
+                            单价：{{ data.price }}
+                        </el-col>
+                        <el-col :span="3" style="height: 104px; display: flex; justify-content: center; flex-direction: column;">
+                            数量：{{ data.num }}
+                        </el-col>
                     </el-row>
                     <!--<el-row v-for="(item, index) in items.filter(data => (!starttime || data.time >= starttime) &&(!endtime || data.time <= endtime))" :key="index" style="padding: 10px 0; border-bottom: 1px solid #eff2f6">
                         <el-col :span="4" style="line-height: 103.8px">
@@ -152,7 +168,13 @@
                 startdate: '',
                 enddate: '',
                 starttime:'',
-                endtime:''
+                endtime:'',
+                bookTemplate:{
+                    isbn:'',
+                    bookname: '',
+                    price: 0,
+                    num: 0,
+                },
             };
         },
         mounted () {
@@ -170,12 +192,21 @@
                 .then(response => {
                     this.items = response.data;
                     this.table = response.data;
+                    for(let i = 0; i < this.items.length; i++){
+                        for(let j = 0; j < this.items[i].orderItemList.length; j++){
+                            axios.get('http://localhost:8088/ebook/bookMongo', {params:{isbn:this.items[i].orderItemList[j].book.isbn}}
+                            ).then(response => {
+                                this.items[i].orderItemList[j].book.cover = "data:image/png;base64," + response.data.cover.toString();
+                            });
+                        }
+                    }
+
                 })
         },
         methods:{
             getTotalPrice(order_id) {
-                var price = 0;
-                for(var i = 0; i < this.items.length; i++){
+                let price = 0;
+                for(let i = 0; i < this.items.length; i++){
                     if(this.items[i].order_id === order_id){
                         for(var j = 0; j < this.items[i].orderItemList.length; j++){
                             price += this.items[i].orderItemList[j].number * this.items[i].orderItemList[j].book.price;
@@ -183,6 +214,39 @@
                     }
                 }
                 return price;
+            },
+            statistics() {
+                this.spanArr = [];
+                let data_all = this.table.slice();
+                while(data_all.length > 0){
+                    let data = data_all.pop();
+                    let oiList = data.orderItemList.slice();
+                    if((!this.starttime || data.time >= this.starttime) &&(!this.endtime || data.time <= this.endtime)){
+                        while(oiList.length > 0){
+                            let orderItem = oiList.pop();
+                            let flag = false;
+                            for(let i = 0; i < this.spanArr.length; i++){
+                                if(orderItem.book.isbn === this.spanArr[i].isbn){
+                                    flag = true;
+                                    this.spanArr[i].num = this.spanArr[i].num + orderItem.number;
+                                }
+                            }
+                            if(!flag){
+                                let book = {
+                                    isbn:'',
+                                    bookname: '',
+                                    price: 0,
+                                    num: 0,
+                                };
+                                book.bookname = orderItem.book.bookname;
+                                book.isbn = orderItem.book.isbn;
+                                book.num = orderItem.number;
+                                book.price = orderItem.book.price;
+                                this.spanArr.push(book);
+                            }
+                        }
+                    }
+                }
             }
         }
     };

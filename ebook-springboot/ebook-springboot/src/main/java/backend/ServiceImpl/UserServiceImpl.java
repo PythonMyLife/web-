@@ -6,6 +6,7 @@ import backend.Service.UserService;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
@@ -86,5 +87,45 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll(){
         return userDao.findAll();
+    }
+
+    @Override
+    public List<User> findAllUser(){
+        List<User> userList = userDao.findAll();
+        ArrayList<User> users = new ArrayList<>();
+        for(User user : userList){
+            if(user.getIdentity() != 1){
+                users.add(user);
+            }
+        }
+        return users;
+    }
+
+    @Override
+    public boolean changeStatus(String username){
+        try{
+            User user = userDao.findByUsername(username);
+            user.setStatus(1 - user.getStatus());
+            userDao.save(user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
+    public boolean regist(String username, String password, String email){
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setStatus(0);
+        user.setIdentity(0);
+        if(nameIsValid(username)){
+            addUser(user);
+            return true;
+        }else{
+            return false;
+        }
     }
 }

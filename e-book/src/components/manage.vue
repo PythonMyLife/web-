@@ -5,7 +5,9 @@
                 <ul>
                     <li><a href="/index">退出登录</a></li>
                     <li><router-link :to="{name:'manage',params:{username:this.username}}" class="current" >权限管理</router-link></li>
+                    <li><router-link :to="{name:'bookmanage',params:{username:this.username}}" >书籍管理</router-link></li>
                     <li><router-link :to="{name:'order',params:{username:this.username}}" >订单管理</router-link></li>
+                    <li><router-link :to="{name:'statistics',params:{username:this.username}}" >统计</router-link></li>
                 </ul>
             </div> <!-- end of menu -->
 

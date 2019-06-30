@@ -28,12 +28,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findAllOrder(){
-        return orderDao.findAll();
+        List<Order> orderList = orderDao.findAll();
+        for(Order order : orderList){
+            order.getUser().setPassword("");
+            order.getUser().setEmail("");
+        }
+        return orderList;
     }
 
     @Override
     public List<Order> findAllOrderByUsernameAndStatus(String username){
-        return orderDao.findAllByUserAndStatus(username, 0);
+        List<Order> orderList = orderDao.findAllByUserAndStatus(username, 0);
+        for(Order order : orderList){
+            order.getUser().setPassword("");
+            order.getUser().setEmail("");
+        }
+        return orderList;
     }
 
     @Override

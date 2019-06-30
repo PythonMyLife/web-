@@ -9,6 +9,7 @@ import com.google.common.base.Optional;
 import java.util.List;
 
 public interface UserDao {
+    void save(User user);
     //增加user
     User addUser(User user);
 

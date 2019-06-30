@@ -3,7 +3,6 @@ package backend.Entity;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "bookFeatures")
@@ -11,13 +10,13 @@ public class BookMongoDB {
     @Id
     private String id;
     private String isbn;
-    private List<String> comments;
+    private byte[] cover;
 
     public BookMongoDB(){}
 
-    public BookMongoDB(String isbn, List<String> comments){
+    public BookMongoDB(String isbn, byte[] cover){
         this.isbn = isbn;
-        this.comments = comments;
+        this.cover = cover;
     }
 
     public String getId() {
@@ -36,12 +35,12 @@ public class BookMongoDB {
         this.isbn = isbn;
     }
 
-    public List<String> getComments() {
-        return comments;
+    public byte[] getCover() {
+        return cover;
     }
 
-    public void setComments(List<String> comments) {
-        this.comments = comments;
+    public void setCover(byte[] cover) {
+        this.cover = cover;
     }
 
     @Override
@@ -51,7 +50,7 @@ public class BookMongoDB {
 
         BookMongoDB that = (BookMongoDB) o;
         if(!Objects.equals(isbn, that.isbn)) return false;
-        if(!Objects.equals(comments, that.comments)) return false;
+        if(!Objects.equals(cover, that.cover)) return false;
 
         return true;
     }
@@ -66,7 +65,7 @@ public class BookMongoDB {
         int result = 0;
         result = 31 * result + (id != null ? id.hashCode() : 0);
         result = 31 * result + (isbn != null ? isbn.hashCode() : 0);
-        result = 31 * result + (comments != null ? comments.hashCode() : 0);
+        result = 31 * result + (cover != null ? cover.hashCode() : 0);
         return result;
     }
 }

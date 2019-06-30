@@ -88,6 +88,12 @@
       }
       axios.get('http://localhost:8088/ebook/get_user_carts',{params:{username:this.username}}).then(response => {
         this.table = response.data;
+        for(let i = 0; i < this.table.length; i++){
+          axios.get('http://localhost:8088/ebook/bookMongo', {params:{isbn:this.table[i].book.isbn}}
+          ).then(response => {
+            this.table[i].book.cover = "data:image/png;base64," + response.data.cover.toString();
+          });
+        }
       });
     },
     computed: {

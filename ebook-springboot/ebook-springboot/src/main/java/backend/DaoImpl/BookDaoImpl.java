@@ -15,8 +15,17 @@ public class BookDaoImpl implements BookDao {
     private BookRepository bookRepository;
 
     @Override
+    public void save(Book book){
+        bookRepository.save(book);
+    }
+    @Override
     public List<Book> findAll(){
         return bookRepository.findAll();
+    }
+
+    @Override
+    public List<Book> findAllByNumValid(){
+        return bookRepository.findAllByNumIsNot(0);
     }
 
     @Override

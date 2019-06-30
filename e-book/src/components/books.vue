@@ -34,6 +34,16 @@
                         </template>
                     </el-table-column>
                 </el-table>
+            <el-dialog title="书籍详情" :visible.sync="dialogFormVisible" width="400px">
+                <el-form >
+                    <el-form-item label="书籍详情">
+                        <p>{{bookdetail}}</p>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="handleDetailFinish()">确定</el-button>
+                </div>
+            </el-dialog>
             <div class="cleaner_with_height">&nbsp;</div>
         </div>
     </div>
@@ -49,23 +59,35 @@
                 message:'',
                 table:[],
                 search: '',
-                username:''
+                username:'',
+                bookdetail:'',
+                dialogFormVisible: false,
             }
         },
         mounted () {
-            axios
-                .get('http://localhost:8088/ebook/books').then(response => {
-                    this.table = response.data;
-                });
             this.username = this.$route.params.username;
             if(this.username == null){
                 this.$alert("未登录请先登录");
                 this.$router.push({name:"index",params:{}});
             }
+            axios
+                .get('http://localhost:8088/ebook/validBooks').then(response => {
+                    this.table = response.data;
+                    for(let i = 0; i < this.table.length; i++){
+                        axios.get('http://localhost:8088/ebook/bookMongo', {params:{isbn:this.table[i].isbn}}
+                        ).then(response => {
+                            this.table[i].cover = "data:image/png;base64," + response.data.cover.toString();
+                        });
+                    }
+                });
         },
         methods: {
             handledetail(index, row) {
-                this.$router.push({name:"subpage",params:{data:row.isbn,username:this.username}});
+                this.bookdetail = row.detail;
+                this.dialogFormVisible = true;
+            },
+            handleDetailFinish(){
+                this.dialogFormVisible = false;
             },
             handleadd(index, row) {
                 let form_data = {"username": this.username,"isbn":row.isbn};

@@ -67,7 +67,7 @@ export default {
         let form_data = {"username":this.username,"password":this.password1,"email":this.email};
         axios.post('http://localhost:8088/ebook/regist',form_data).then(response=>{
           this.msg = response.data;
-          if(this.msg == 0 ){
+          if(this.msg === 0 ){
             this.error = "用户名重复！";
           }else {
             alert("注册成功！");
